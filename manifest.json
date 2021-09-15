@@ -1,0 +1,36 @@
+{
+
+  "manifest_version": 2,
+  "name": "aQRate",
+  "version": "1.0",
+
+  "description": "Get the current URL as a QR code or HTML tag.",
+  "homepage_url": "https://github.com/Joelmmm/aQRate.git",
+  "icons": {
+    "32": "icons/qr-32.png",
+    "48": "icons/qr-48.png"
+  },
+
+  "permissions": [
+    "activeTab",
+    "tabs"
+  ],
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "run_at": "document_idle",
+      "js": ["content_scripts/aQRate.js"]
+    }
+  ],
+
+  "browser_action": {
+    "default_icon": "icons/qr-32.png",
+    "default_title": "aQRate",
+    "default_popup": "popup/aQRate.html"
+  }
+}
