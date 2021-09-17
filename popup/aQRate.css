@@ -21,15 +21,15 @@ html, body {
 
 /* ************    HTML tag    ************/
 
-#html-a-tag__container {
+#format__container {
   width: 100%;
 }
 
-#html-a-tag__title {
+#format__title {
   margin-bottom: 5px;
 }
 
-.url-box {
+.format__content-box {
   border: 1px solid black;
   border-radius: 5px;
   width: 95%;
