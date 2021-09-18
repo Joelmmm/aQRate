@@ -6,7 +6,6 @@ const popupContent = document.getElementById('popup-content');
 // Ask for current's tab URL
 chrome.runtime.sendMessage({ type: 'GET_CURRENT_TAB_URL' }, async (response) => {
   const { url } = response;
-  // replace (newChild, oldChild)
   const formattedUrl = formatUrl(url);
 
   popupContent.appendChild(UrlTextFormatComponent('HTML <a>', formattedUrl.toHtmlATag()))
@@ -66,9 +65,10 @@ function UrlTextFormatComponent(title, formattedUrl) {
   // associations
   container.appendChild(titleElem);
   container.appendChild(contentBox);
+  container.appendChild(CopyButton(formattedUrl));
   contentBox.appendChild(content);
   titleElem.appendChild(document.createTextNode(title));
-  
+
   // Set attributes
   container.className = 'format__container';
   titleElem.className = 'format__title';
@@ -79,4 +79,26 @@ function UrlTextFormatComponent(title, formattedUrl) {
   content.appendChild(document.createTextNode(formattedUrl));
 
   return container;
+}
+
+function CopyButton(textToCopy) {
+  const button = document.createElement('button');
+  const image = document.createElement('img');
+  
+  image.src = chrome.runtime.getURL('../icons/content_copy_black_24dp.svg');
+  button.className = 'format__copy-button';
+
+  button.appendChild(image);
+
+  button.addEventListener('click', () => {
+    navigator.clipboard.writeText(textToCopy).then(() => {
+      /* clipboard successfully set */
+      console.log('clipboard successfully set');
+    }, () => {
+      /* clipboard write failed */
+      console.log('clipboard write failed');
+    });
+  })
+
+  return button;
 }
