@@ -67,11 +67,11 @@ function UrlTextFormatComponent(title, formattedUrl) {
   container.appendChild(titleElem);
   container.appendChild(contentBox);
   contentBox.appendChild(content);
-
+  titleElem.appendChild(document.createTextNode(title));
+  
   // Set attributes
   container.className = 'format__container';
   titleElem.className = 'format__title';
-  titleElem.appendChild(document.createTextNode(title));
   contentBox.className = 'format__content-box';
   content.className = 'format__content';
 
