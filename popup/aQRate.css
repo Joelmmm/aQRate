@@ -2,55 +2,62 @@
 
 html,
 body {
-  width: 300px;
   height: 400px;
   font-family: "Open Sans", sans-serif;
 }
 
 #popup-content {
-  height: 250px;
-  width: 100%;
-  margin: 0 auto;
+  
+  margin: 0;
 }
 
 #QR-container {
   height: 250px;
   width: 250px;
-  margin: 0 auto;
   box-shadow: 2px 2px 6px grey;
 }
 
 /* ************   formats   ************/
 
-#format__container {
-  width: 100%;
+.format__container {
 }
 
-#format__title {
-  margin-bottom: 5px;
+.format__title {
+  margin-bottom: 10px;
 }
 
 .format__content-box {
-  border: 1px solid black;
-  border-radius: 3px;
-  width: 50%;
-  padding: 0 0.5rem;
+  padding: 0.5rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+.format__contentBox-button-container {
+  border: 1px solid rgb(216, 215, 215);;
+  border-radius: 3px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.format__copy-button {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding: 4px;
+  cursor: pointer;
+  border: none;
+  background-color: rgb(216, 215, 215);
+}
+
+.format__copy-button:hover {
+  background-color: rgb(184, 184, 184);
+}
 /* **********************************************************/
 
 .hidden {
   display: none;
 }
 
-/* .button {
-  margin: 3% auto;
-  padding: 4px;
-  text-align: center;
-  font-size: 1.5em;
-  cursor: pointer;
-}
- */
+

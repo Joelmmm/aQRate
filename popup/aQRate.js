@@ -60,12 +60,14 @@ function UrlTextFormatComponent(title, formattedUrl) {
   const container = document.createElement('div');
   const titleElem = document.createElement('h3');
   const contentBox = document.createElement('div');
+  const contentAndButtonContainer = document.createElement('div');
   const content = document.createElement('span');
 
   // associations
   container.appendChild(titleElem);
-  container.appendChild(contentBox);
-  container.appendChild(CopyButton(formattedUrl));
+  container.appendChild(contentAndButtonContainer);
+  contentAndButtonContainer.appendChild(contentBox);
+  contentAndButtonContainer.appendChild(CopyButton(formattedUrl));
   contentBox.appendChild(content);
   titleElem.appendChild(document.createTextNode(title));
 
@@ -74,6 +76,7 @@ function UrlTextFormatComponent(title, formattedUrl) {
   titleElem.className = 'format__title';
   contentBox.className = 'format__content-box';
   content.className = 'format__content';
+  contentAndButtonContainer.className = 'format__contentBox-button-container';
 
   // Insert formatted Url 
   content.appendChild(document.createTextNode(formattedUrl));
@@ -84,7 +87,7 @@ function UrlTextFormatComponent(title, formattedUrl) {
 function CopyButton(textToCopy) {
   const button = document.createElement('button');
   const image = document.createElement('img');
-  
+
   image.src = chrome.runtime.getURL('../icons/content_copy_black_24dp.svg');
   button.className = 'format__copy-button';
 
