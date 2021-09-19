@@ -2,6 +2,7 @@ console.log('Hello from popup script.');
 
 const QR_ImageTag = document.getElementById('QR-image');
 const popupContent = document.getElementById('popup-content');
+const donut = document.querySelector('.donut');
 
 // Ask for current's tab URL
 chrome.runtime.sendMessage({ type: 'GET_CURRENT_TAB_URL' }, async (response) => {
@@ -14,6 +15,12 @@ chrome.runtime.sendMessage({ type: 'GET_CURRENT_TAB_URL' }, async (response) => 
   popupContent.appendChild(UrlTextFormatComponent('Markdown Image', formattedUrl.toMarkdownImg()))
 
   QR_ImageTag.src = await formattedUrl.toQR();
+  // After we get the QR: remove donut, add image.
+  if (QR_ImageTag.classList.contains('hidden')) {
+    QR_ImageTag.classList.remove('hidden');
+    donut.classList.add('hidden');
+  }
+
   return
 });
 

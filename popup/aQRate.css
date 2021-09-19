@@ -7,20 +7,41 @@ body {
 }
 
 #popup-content {
-  
   margin: 0;
 }
 
 #QR-container {
   height: 250px;
   width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: 2px 2px 6px grey;
 }
 
-/* ************   formats   ************/
+/*************  Donut spinner  *************/
+/* https://www.30secondsofcode.org/css/s/donut-spinner */
 
-.format__container {
+@keyframes donut-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
+
+.donut {
+  display: inline-block;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #7983ff;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: donut-spin 1.2s linear infinite;
+}
+
+/* ************   formats   ************/
 
 .format__title {
   margin-bottom: 10px;
