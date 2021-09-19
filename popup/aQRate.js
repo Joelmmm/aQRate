@@ -9,10 +9,10 @@ chrome.runtime.sendMessage({ type: 'GET_CURRENT_TAB_URL' }, async (response) => 
   const { url } = response;
   const formattedUrl = formatUrl(url);
 
-  popupContent.appendChild(UrlTextFormatComponent('HTML <a>', formattedUrl.toHtmlATag()))
-  popupContent.appendChild(UrlTextFormatComponent('HTML <img>', formattedUrl.toHtmlImgTag()))
-  popupContent.appendChild(UrlTextFormatComponent('Markdown Link', formattedUrl.toMarkdownLink()))
-  popupContent.appendChild(UrlTextFormatComponent('Markdown Image', formattedUrl.toMarkdownImg()))
+  popupContent.appendChild(UrlTextFormatComponent('HTML <a>', formattedUrl.toHtmlATag(), 'https://www.w3schools.com/html/html_links.asp'))
+  popupContent.appendChild(UrlTextFormatComponent('HTML <img>', formattedUrl.toHtmlImgTag(), 'https://www.w3schools.com/html/html_images.asp'))
+  popupContent.appendChild(UrlTextFormatComponent('Markdown Link', formattedUrl.toMarkdownLink(), 'https://www.markdownguide.org/basic-syntax#links'))
+  popupContent.appendChild(UrlTextFormatComponent('Markdown Image', formattedUrl.toMarkdownImg(), 'https://www.digitalocean.com/community/tutorials/markdown-markdown-images'))
 
   QR_ImageTag.src = await formattedUrl.toQR();
   // After we get the QR: remove donut, add image.
@@ -63,20 +63,27 @@ function formatUrl(url) {
 
 // Components...
 
-function UrlTextFormatComponent(title, formattedUrl) {
+function UrlTextFormatComponent(title, formattedUrl, externalInfoURL) {
+
   const container = document.createElement('div');
   const titleElem = document.createElement('h3');
   const contentBox = document.createElement('div');
   const contentAndButtonContainer = document.createElement('div');
   const content = document.createElement('span');
+  const linkIcon = document.createElement('img');
+  // title and info icon wrapper
+  const linkContainer = document.createElement('a');
 
   // associations
-  container.appendChild(titleElem);
+  container.appendChild(linkContainer);
   container.appendChild(contentAndButtonContainer);
+  linkContainer.appendChild(titleElem);
+  linkContainer.appendChild(linkIcon);
   contentAndButtonContainer.appendChild(contentBox);
   contentAndButtonContainer.appendChild(CopyButton(formattedUrl));
   contentBox.appendChild(content);
   titleElem.appendChild(document.createTextNode(title));
+
 
   // Set attributes
   container.className = 'format__container';
@@ -84,6 +91,10 @@ function UrlTextFormatComponent(title, formattedUrl) {
   contentBox.className = 'format__content-box';
   content.className = 'format__content';
   contentAndButtonContainer.className = 'format__contentBox-button-container';
+  linkIcon.src = chrome.runtime.getURL('../icons/link_black_24dp.svg');
+  linkIcon.className = 'format__link-icon';
+  linkContainer.href = externalInfoURL;
+  linkContainer.className = 'format__link-container'
 
   // Insert formatted Url 
   content.appendChild(document.createTextNode(formattedUrl));

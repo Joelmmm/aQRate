@@ -1,3 +1,7 @@
+:root {
+  --link-color: #1a73e8;
+}
+
 /* ************  QR image    ************/
 
 html,
@@ -44,7 +48,21 @@ body {
 /* ************   formats   ************/
 
 .format__title {
-  margin-bottom: 10px;
+
+}
+
+.format__link-container {
+  display: flex;
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.format__link-container:hover {
+  text-decoration: underline;
+}
+
+.format__link-icon {
+  margin: 0 0.5rem;
 }
 
 .format__content-box {
@@ -55,7 +73,7 @@ body {
 }
 
 .format__contentBox-button-container {
-  border: 1px solid rgb(216, 215, 215);;
+  border: 1px solid rgb(216, 215, 215);
   border-radius: 3px;
   display: flex;
   justify-content: space-between;
@@ -80,5 +98,3 @@ body {
 .hidden {
   display: none;
 }
-
-
