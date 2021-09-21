@@ -14,7 +14,8 @@ chrome.runtime.sendMessage({ type: 'GET_CURRENT_TAB_URL' }, async (response) => 
   popupContent.appendChild(UrlTextFormatComponent('Markdown Link', formattedUrl.toMarkdownLink(), 'https://www.markdownguide.org/basic-syntax#links'))
   popupContent.appendChild(UrlTextFormatComponent('Markdown Image', formattedUrl.toMarkdownImg(), 'https://www.digitalocean.com/community/tutorials/markdown-markdown-images'))
 
-  QR_ImageTag.src = await formattedUrl.toQR();
+  QR_ImageTag.src = URL.createObjectURL(await formattedUrl.toQR());
+  
   // After we get the QR: remove donut, add image.
   if (QR_ImageTag.classList.contains('hidden')) {
     QR_ImageTag.classList.remove('hidden');
@@ -37,7 +38,7 @@ async function getQR(urlToEncode) {
 
   if (QRCodeResponse.ok) {
     console.log('QRCodeResponse Success');
-    return QRCodeResponse.url;
+    return QRCodeResponse.blob();
   } else {
     console.error('QRCodeResponse Error');
   }
