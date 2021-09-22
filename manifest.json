@@ -13,8 +13,14 @@
 
   "permissions": [
     "activeTab",
-    "tabs"
+    "tabs",
+    "storage"
   ],
+
+  "options_ui": {
+    "page": "options_page/options.html",
+    "open_in_tab": false
+  },
 
   "background": {
     "scripts": ["background.js"]

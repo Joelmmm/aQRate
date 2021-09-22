@@ -147,8 +147,7 @@ function displayAlert(message) {
     
     closeButton.addEventListener('click', hideAlert);
     // remove alert from view in 1.5 seconds
-    setTimeout(() => {
-      hideAlert();
-    }, 1500)
+    setTimeout(() => hideAlert(), 1500);
   }
 }
+
