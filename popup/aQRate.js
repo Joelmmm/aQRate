@@ -1,4 +1,5 @@
 console.log('Hello from popup script.');
+const bg = chrome.extension.getBackgroundPage();
 
 const QR_ImageTag = document.getElementById('QR-image');
 const popupContent = document.getElementById('popup-content');
@@ -126,18 +127,21 @@ function CopyButton(textToCopy) {
 
 function displayAlert(message) {
   const htmlAlert = document.querySelector('.alert');
-  const messageContainer = document.querySelector('.alert-content');
-  messageContainer.innerHTML = '';
-  messageContainer.innerHTML = message;
-  htmlAlert.appendChild(messageContainer);
 
-  if (htmlAlert.classList.contains('hidden')) return;
+  if (!htmlAlert.classList.contains('hidden')) return;
   else {
-    htmlAlert.classList.remove('hidden');
+    const messageContainer = document.querySelector('.alert-content');
+    messageContainer.innerHTML = '';
+    messageContainer.innerHTML = message;
 
-    document.querySelector('.closebtn').addEventListener('click', (e) => {
-      console.log('parentElement', e.target.parentElement);
+    htmlAlert.appendChild(messageContainer);
+    
+    htmlAlert.classList.remove('hidden');
+    
+    const hideAlert = (e) => {
       e.target.parentElement.classList.add('hidden');
-    });
+      e.target.removeEventListener('click', hideAlert);
+    }
+    document.querySelector('.closebtn').addEventListener('click', hideAlert);
   }
 }
