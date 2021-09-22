@@ -47,10 +47,6 @@ body {
 
 /* ************   formats   ************/
 
-.format__title {
-
-}
-
 .format__link-container {
   display: flex;
   color: var(--link-color);
@@ -97,4 +93,28 @@ body {
 
 .hidden {
   display: none;
+}
+
+
+/* Alert */
+
+.alert {
+  padding: 20px;
+  background-color: #04AA6D;
+  color: white;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
 }

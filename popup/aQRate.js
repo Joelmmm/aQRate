@@ -15,7 +15,7 @@ chrome.runtime.sendMessage({ type: 'GET_CURRENT_TAB_URL' }, async (response) => 
   popupContent.appendChild(UrlTextFormatComponent('Markdown Image', formattedUrl.toMarkdownImg(), 'https://www.digitalocean.com/community/tutorials/markdown-markdown-images'))
 
   QR_ImageTag.src = URL.createObjectURL(await formattedUrl.toQR());
-  
+
   // After we get the QR: remove donut, add image.
   if (QR_ImageTag.classList.contains('hidden')) {
     QR_ImageTag.classList.remove('hidden');
@@ -113,14 +113,31 @@ function CopyButton(textToCopy) {
   button.appendChild(image);
 
   button.addEventListener('click', () => {
-    navigator.clipboard.writeText(textToCopy).then(() => {
-      /* clipboard successfully set */
-      console.log('clipboard successfully set');
-    }, () => {
-      /* clipboard write failed */
-      console.log('clipboard write failed');
-    });
+    navigator.clipboard.writeText(textToCopy).then(
+      () => displayAlert('Copied to clipboard.'),
+      (error) => console.error(error)
+    );
   })
 
   return button;
+}
+
+// Alert Message. Feedback on copy.
+
+function displayAlert(message) {
+  const htmlAlert = document.querySelector('.alert');
+  const messageContainer = document.querySelector('.alert-content');
+  messageContainer.innerHTML = '';
+  messageContainer.innerHTML = message;
+  htmlAlert.appendChild(messageContainer);
+
+  if (htmlAlert.classList.contains('hidden')) return;
+  else {
+    htmlAlert.classList.remove('hidden');
+
+    document.querySelector('.closebtn').addEventListener('click', (e) => {
+      console.log('parentElement', e.target.parentElement);
+      e.target.parentElement.classList.add('hidden');
+    });
+  }
 }
