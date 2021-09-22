@@ -138,10 +138,17 @@ function displayAlert(message) {
     
     htmlAlert.classList.remove('hidden');
     
-    const hideAlert = (e) => {
-      e.target.parentElement.classList.add('hidden');
-      e.target.removeEventListener('click', hideAlert);
+    const closeButton = document.querySelector('.closebtn');
+
+    const hideAlert = () => {
+      htmlAlert.classList.add('hidden');
+      closeButton.removeEventListener('click', hideAlert);
     }
-    document.querySelector('.closebtn').addEventListener('click', hideAlert);
+    
+    closeButton.addEventListener('click', hideAlert);
+    // remove alert from view in 1.5 seconds
+    setTimeout(() => {
+      hideAlert();
+    }, 1500)
   }
 }
