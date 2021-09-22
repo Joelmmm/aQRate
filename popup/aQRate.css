@@ -8,6 +8,7 @@ html,
 body {
   height: 400px;
   font-family: "Open Sans", sans-serif;
+  position: relative;
 }
 
 #popup-content {
@@ -95,13 +96,17 @@ body {
   display: none;
 }
 
-
-/* Alert */
+/************* Alert *************/
 
 .alert {
   padding: 20px;
-  background-color: #04AA6D;
+  background-color: #04aa6d;
   color: white;
+  width: 60%;
+  /* centering a fixed element is not like with other positionings */
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%);
 }
 
 .closebtn {
