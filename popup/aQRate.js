@@ -15,6 +15,15 @@ chrome.runtime.sendMessage({ type: 'GET_CURRENT_TAB_URL' }, async (response) => 
   popupContent.appendChild(UrlTextFormatComponent('Markdown Link', formattedUrl.toMarkdownLink(), 'https://www.markdownguide.org/basic-syntax#links'))
   popupContent.appendChild(UrlTextFormatComponent('Markdown Image', formattedUrl.toMarkdownImg(), 'https://www.digitalocean.com/community/tutorials/markdown-markdown-images'))
 
+  chrome.storage.sync.get(['templates'], result => {
+    bg.console.log(typeof result.templates);
+    if (result.templates) {
+      for (const template of result.templates) {
+        popupContent.appendChild(UrlTextFormatComponent(template.title, handleTemplateInput(template.content, formattedUrl.plain()), 'https://www.w3schools.com/html/html_links.asp'))
+      }
+    }
+  })
+
   QR_ImageTag.src = URL.createObjectURL(await formattedUrl.toQR());
 
   // After we get the QR: remove donut, add image.
@@ -49,6 +58,8 @@ async function getQR(urlToEncode) {
 function formatUrl(url) {
   const altText = 'Alt Text';
   return {
+    plain: () => url,
+
     toQR: async () => await getQR(url),
 
     toHtmlImgTag: () => `<img alt="${altText}" src="${url}" />`,
@@ -135,19 +146,36 @@ function displayAlert(message) {
     messageContainer.innerHTML = message;
 
     htmlAlert.appendChild(messageContainer);
-    
+
     htmlAlert.classList.remove('hidden');
-    
+
     const closeButton = document.querySelector('.closebtn');
 
     const hideAlert = () => {
       htmlAlert.classList.add('hidden');
       closeButton.removeEventListener('click', hideAlert);
     }
-    
+
     closeButton.addEventListener('click', hideAlert);
     // remove alert from view in 1.5 seconds
     setTimeout(() => hideAlert(), 1500);
   }
 }
 
+// Insert URL into template
+function handleTemplateInput(str, url) {
+  if (!str) return url;
+  if (typeof str !== 'string') {
+    console.error('Argument must be a string.');
+    return '';
+  }
+
+  let template = str.trim();
+  const placeholder = '🔗';
+
+  if (template.indexOf(placeholder) === -1) {
+    return template;
+  }
+
+  return template.replace(placeholder, url);
+}

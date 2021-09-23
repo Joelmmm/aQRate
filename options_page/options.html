@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8" />
     <link rel="stylesheet" href="options.css" />
     <title>aQRate options</title>
   </head>
   <body>
     <h2>Add Template</h2>
-    
+
     <form>
       <label for="template-title"> Title: </label>
-      <input type="text" id="template-title" />
-      <label for="template-content"> Template: </label>
-      <textarea id="template-content"></textarea>
-      <button id="save">Save</button>
+      <input type="text" id="template-title" required />
+      <label for="template-content"> Template (use this emoji 🔗 as a placeholder for the URL): </label>
+      <textarea required id="template-content"></textarea>
+      <input type="submit" value="Save" />
     </form>
 
     <script src="options.js"></script>
