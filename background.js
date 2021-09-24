@@ -1,4 +1,4 @@
-console.log('Hello from background script.');
+import { formatUrl, Template } from './utils/utils.js';
 
 chrome.tabs.onActivated.addListener(activeInfo => {
   console.log('activeInfo ', activeInfo);
@@ -6,7 +6,6 @@ chrome.tabs.onActivated.addListener(activeInfo => {
 })
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  console.log('message  ', message);
   if (message.type === 'GET_CURRENT_TAB_URL') {
 
     let activeTab = { url: null };
@@ -18,4 +17,21 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     });
   }
   return true;
+});
+
+
+//  ### Save default formats
+
+chrome.runtime.onInstalled.addListener(() => {
+  const formattedUrl = formatUrl('🔗');
+  const defaultTemplates = [
+    new Template('HTML <a>', formattedUrl.toHtmlATag(), 'https://www.w3schools.com/html/html_links.asp'),
+    new Template('HTML <img>', formattedUrl.toHtmlImgTag(), 'https://www.w3schools.com/html/html_images.asp'),
+    new Template('Markdown Link', formattedUrl.toMarkdownLink(), 'https://www.markdownguide.org/basic-syntax#links'),
+    new Template('Markdown Image', formattedUrl.toMarkdownImg(), 'https://www.digitalocean.com/community/tutorials/markdown-markdown-images'),
+  ];
+
+  chrome.storage.sync.clear();
+
+  chrome.storage.sync.set({ templates: defaultTemplates }, () => console.log('%cDefault templates saved.', 'color: green'));
 });

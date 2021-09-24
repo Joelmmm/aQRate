@@ -5,19 +5,14 @@ const title = templateForm.elements['template-title'];
 const content = templateForm.elements['template-content'];
 content.value = '🔗';
 
-try {
-  chrome.storage.sync.clear();
-} catch (e) {
-  bg.console.error(e);
-}
-
 templateForm.addEventListener('submit', (e) => {
   e.preventDefault();
   chrome.storage.sync.get(['templates'], function (result) {
 
     const newTemplate = {
       title: title.value,
-      content: content.value
+      content: content.value,
+      referenceURL: '/nowhere',
     }
     const toSave = result.templates ? [...result.templates, newTemplate] : [newTemplate];
 
