@@ -13,11 +13,17 @@
 
   "permissions": [
     "activeTab",
-    "tabs"
+    "tabs",
+    "storage"
   ],
 
+  "options_ui": {
+    "page": "options_page/options.html",
+    "open_in_tab": false
+  },
+
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["build/background.js"]
   },
   
   "content_scripts": [
@@ -26,6 +32,13 @@
       "js": ["content_scripts/content.js"]
     }
   ],
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "addon@example.com",
+      "strict_min_version": "42.0"
+    }
+  },  
 
   "browser_action": {
     "default_icon": "icons/qr-32.png",

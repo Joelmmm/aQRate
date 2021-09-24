@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="options.css" />
+    <title>aQRate options</title>
+  </head>
+  <body>
+    <h2>Add Template</h2>
+
+    <div class="alert hidden">
+      <span class="closebtn">&times;</span>
+      <strong>Success!</strong>
+      <span class="alert-content"></span>
+    </div>
+
+    <form>
+      <fieldset>
+        <label for="template-title"> Title: </label>
+        <input type="text" id="template-title" required />
+        <label for="template-reference-url"> Reference URL: * </label>
+        <input id="template-reference-url" />
+        <label for="template-content">
+          Template (use this emoji 🔗 as a placeholder for the URL):
+        </label>
+        <textarea required id="template-content"></textarea>
+        <input id="template-submit-button" type="submit" value="Save" />
+      </fieldset>
+    </form>
+
+    <span class="template-info">* The URL where to redirect when clicking on the title.</span>
+
+    <script src="options.js"></script>
+  </body>
+</html>

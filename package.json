@@ -1,0 +1,25 @@
+{
+  "name": "aqrate",
+  "version": "1.0.0",
+  "description": "Browser extension. Get the current URL as a QR code or HTML tag.",
+  "private": true,
+  "devDependencies": {
+    "webpack": "^5.53.0",
+    "webpack-cli": "^4.8.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Joelmmm/aQRate.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Joelmmm/aQRate/issues"
+  },
+  "homepage": "https://github.com/Joelmmm/aQRate#readme"
+}

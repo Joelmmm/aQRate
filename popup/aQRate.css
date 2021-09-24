@@ -123,3 +123,26 @@ body {
 .closebtn:hover {
   color: black;
 }
+
+/* ******* Add template **********************/
+
+#add-template {
+  margin: 2rem;
+  height: 3rem;
+  font-size: 1rem;
+  text-align: center;
+  align-self: flex-start;
+}
+
+#add-template span {
+  color: var(--link-color);
+  border: 1px solid var(--link-color);
+  border-radius: 10px;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+#add-template::after {
+  content: '';
+  height: 1rem;
+}

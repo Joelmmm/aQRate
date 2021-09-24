@@ -1,5 +1,4 @@
-console.log('Hello from popup script.');
-const bg = chrome.extension.getBackgroundPage();
+import { getQR } from '../utils/utils';
 
 const QR_ImageTag = document.getElementById('QR-image');
 const popupContent = document.getElementById('popup-content');
@@ -8,14 +7,22 @@ const donut = document.querySelector('.donut');
 // Ask for current's tab URL
 chrome.runtime.sendMessage({ type: 'GET_CURRENT_TAB_URL' }, async (response) => {
   const { url } = response;
-  const formattedUrl = formatUrl(url);
 
-  popupContent.appendChild(UrlTextFormatComponent('HTML <a>', formattedUrl.toHtmlATag(), 'https://www.w3schools.com/html/html_links.asp'))
-  popupContent.appendChild(UrlTextFormatComponent('HTML <img>', formattedUrl.toHtmlImgTag(), 'https://www.w3schools.com/html/html_images.asp'))
-  popupContent.appendChild(UrlTextFormatComponent('Markdown Link', formattedUrl.toMarkdownLink(), 'https://www.markdownguide.org/basic-syntax#links'))
-  popupContent.appendChild(UrlTextFormatComponent('Markdown Image', formattedUrl.toMarkdownImg(), 'https://www.digitalocean.com/community/tutorials/markdown-markdown-images'))
+  chrome.storage.sync.get(['templates'], result => {
+    if ('templates' in result) {
+      for (const template of result.templates) {
+        popupContent.appendChild(
+          UrlTextFormatComponent(
+            template.title,
+            handleTemplateInput(template.content, url),
+            template.referenceURL
+          )
+        )
+      }
+    }
+  })
 
-  QR_ImageTag.src = URL.createObjectURL(await formattedUrl.toQR());
+  QR_ImageTag.src = URL.createObjectURL(await getQR(url));
 
   // After we get the QR: remove donut, add image.
   if (QR_ImageTag.classList.contains('hidden')) {
@@ -26,42 +33,13 @@ chrome.runtime.sendMessage({ type: 'GET_CURRENT_TAB_URL' }, async (response) => 
   return
 });
 
-// request QR code from Google's API
-async function getQR(urlToEncode) {
-  const url = 'https://chart.googleapis.com/chart?';
-  const imageWidth = 250;
-  const imageHeight = 250;
-  const data = urlToEncode;
+// Add-Template button...
 
-  const requiredParams = ['cht=qr', `chs=${imageWidth}x${imageHeight}`, `chl=${data}`];
+const addTemplateButton = document.querySelector('#add-template-button');
 
-  const QRCodeResponse = await fetch(`${url}${requiredParams.join('&')}`);
-
-  if (QRCodeResponse.ok) {
-    console.log('QRCodeResponse Success');
-    return QRCodeResponse.blob();
-  } else {
-    console.error('QRCodeResponse Error');
-  }
-  return
-}
-
-function formatUrl(url) {
-  const altText = 'Alt Text';
-  return {
-    toQR: async () => await getQR(url),
-
-    toHtmlImgTag: () => `<img alt="${altText}" src="${url}" />`,
-
-    toHtmlATag: () => `<a href="${url}"></a>`,
-
-    toFetchJS: () => `fetch('${url}').then(response => console.log(response));`,
-
-    toMarkdownLink: () => `[My Link!](${url})`,
-
-    toMarkdownImg: () => `![${altText}](${url})`,
-  }
-}
+addTemplateButton.addEventListener('click', () => {
+  chrome.runtime.openOptionsPage();
+})
 
 // Components...
 
@@ -135,20 +113,36 @@ function displayAlert(message) {
     messageContainer.innerHTML = message;
 
     htmlAlert.appendChild(messageContainer);
-    
+
     htmlAlert.classList.remove('hidden');
-    
+
     const closeButton = document.querySelector('.closebtn');
 
     const hideAlert = () => {
       htmlAlert.classList.add('hidden');
       closeButton.removeEventListener('click', hideAlert);
     }
-    
+
     closeButton.addEventListener('click', hideAlert);
     // remove alert from view in 1.5 seconds
-    setTimeout(() => {
-      hideAlert();
-    }, 1500)
+    setTimeout(() => hideAlert(), 1500);
   }
+}
+
+// Insert URL into template
+function handleTemplateInput(str, url) {
+  if (!str) return url;
+  if (typeof str !== 'string') {
+    console.error('Argument must be a string.');
+    return '';
+  }
+
+  let template = str.trim();
+  const placeholder = '🔗';
+
+  if (template.indexOf(placeholder) === -1) {
+    return template;
+  }
+
+  return template.replace(placeholder, url);
 }
