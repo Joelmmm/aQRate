@@ -3,6 +3,7 @@ const bg = chrome.extension.getBackgroundPage();
 const templateForm = document.querySelector('form');
 const title = templateForm.elements['template-title'];
 const content = templateForm.elements['template-content'];
+const referenceURL = templateForm.elements['template-reference-url'];
 content.value = '🔗';
 
 templateForm.addEventListener('submit', (e) => {
@@ -12,14 +13,15 @@ templateForm.addEventListener('submit', (e) => {
     const newTemplate = {
       title: title.value,
       content: content.value,
-      referenceURL: '/nowhere',
+      referenceURL: validateURL(referenceURL.value) ? referenceURL.value : '',
     }
     const toSave = result.templates ? [...result.templates, newTemplate] : [newTemplate];
 
     chrome.storage.sync.set({ templates: toSave }, () => {
       title.value = '';
       content.value = '🔗';
-      displayAlert('Template created.')
+      referenceURL.value = '';
+      displayAlert('Template created.');
     })
   })
 });
@@ -48,5 +50,15 @@ function displayAlert(message) {
     closeButton.addEventListener('click', hideAlert);
     // remove alert from view in 1.5 seconds
     setTimeout(() => hideAlert(), 1500);
+  }
+}
+
+function validateURL(url) {
+  try {
+    new URL(url);
+    return
+  } catch (e) {
+    console.error(e);
+    return false;
   }
 }
