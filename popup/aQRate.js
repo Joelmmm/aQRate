@@ -33,6 +33,14 @@ chrome.runtime.sendMessage({ type: 'GET_CURRENT_TAB_URL' }, async (response) => 
   return
 });
 
+// Add-Template button...
+
+const addTemplateButton = document.querySelector('#add-template-button');
+
+addTemplateButton.addEventListener('click', () => {
+  chrome.runtime.openOptionsPage();
+})
+
 // Components...
 
 function UrlTextFormatComponent(title, formattedUrl, externalInfoURL) {
