@@ -42,3 +42,17 @@ export function Template(title, content, referenceURL = '') {
   this.content = content;
   this.referenceURL = referenceURL;
 }
+ 
+// Insert URL into template
+export function handleTemplateInput(str, url) {
+  if (!str) return url;
+  if (typeof str !== 'string') {
+    console.error('Argument must be a string.');
+    return '';
+  }
+
+  let template = str.trim();
+  const placeholder = '🔗';
+
+  return template.replaceAll(placeholder, url);
+}

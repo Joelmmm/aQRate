@@ -1,4 +1,4 @@
-import { getQR } from '../utils/utils';
+import { getQR, handleTemplateInput } from '../utils/utils';
 
 const QR_ImageTag = document.getElementById('QR-image');
 const popupContent = document.getElementById('popup-content');
@@ -127,22 +127,4 @@ function displayAlert(message) {
     // remove alert from view in 1.5 seconds
     setTimeout(() => hideAlert(), 1500);
   }
-}
-
-// Insert URL into template
-function handleTemplateInput(str, url) {
-  if (!str) return url;
-  if (typeof str !== 'string') {
-    console.error('Argument must be a string.');
-    return '';
-  }
-
-  let template = str.trim();
-  const placeholder = '🔗';
-
-  if (template.indexOf(placeholder) === -1) {
-    return template;
-  }
-
-  return template.replace(placeholder, url);
 }
