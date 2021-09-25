@@ -51,6 +51,7 @@ function UrlTextFormatComponent(title, formattedUrl, externalInfoURL) {
   const contentAndButtonContainer = document.createElement('div');
   const content = document.createElement('span');
   const linkIcon = document.createElement('img');
+  const deleteIcon = document.createElement('img');
   // title and info icon wrapper
   const linkContainer = document.createElement('a');
 
@@ -59,6 +60,7 @@ function UrlTextFormatComponent(title, formattedUrl, externalInfoURL) {
   container.appendChild(contentAndButtonContainer);
   linkContainer.appendChild(titleElem);
   linkContainer.appendChild(linkIcon);
+  linkContainer.appendChild(deleteIcon);
   contentAndButtonContainer.appendChild(contentBox);
   contentAndButtonContainer.appendChild(CopyButton(formattedUrl));
   contentBox.appendChild(content);
@@ -73,6 +75,8 @@ function UrlTextFormatComponent(title, formattedUrl, externalInfoURL) {
   contentAndButtonContainer.className = 'format__contentBox-button-container';
   linkIcon.src = chrome.runtime.getURL('../icons/link_black_24dp.svg');
   linkIcon.className = 'format__link-icon';
+  deleteIcon.src = chrome.runtime.getURL('../icons/delete_outline_black_24dp.svg');
+  deleteIcon.className = 'format__delete-icon';
   linkContainer.href = externalInfoURL;
   linkContainer.className = 'format__link-container'
 
