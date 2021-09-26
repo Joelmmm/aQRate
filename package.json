@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/Joelmmm/aQRate/issues"
   },
-  "homepage": "https://github.com/Joelmmm/aQRate#readme"
+  "homepage": "https://github.com/Joelmmm/aQRate#readme",
+  "dependencies": {
+    "hash-string": "^1.0.0"
+  }
 }

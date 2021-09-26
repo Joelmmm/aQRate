@@ -1,3 +1,5 @@
+import hash from 'hash-string';
+
 // request QR code from Google's API
 export async function getQR(urlToEncode) {
   const url = 'https://chart.googleapis.com/chart?';
@@ -41,6 +43,7 @@ export function Template(title, content, referenceURL = '') {
   this.title = title;
   this.content = content;
   this.referenceURL = referenceURL;
+  this.id = hash(this.title + this.content);
 }
  
 // Insert URL into template

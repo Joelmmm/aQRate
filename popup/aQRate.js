@@ -15,6 +15,7 @@ chrome.runtime.sendMessage({ type: 'GET_CURRENT_TAB_URL' }, async (response) => 
           UrlTextFormatComponent(
             template.title,
             handleTemplateInput(template.content, url),
+            template.id,
             template.referenceURL
           )
         )
@@ -43,24 +44,23 @@ addTemplateButton.addEventListener('click', () => {
 
 // Components...
 
-function UrlTextFormatComponent(title, formattedUrl, externalInfoURL) {
+function UrlTextFormatComponent(title, formattedUrl, id, externalInfoURL) {
 
   const container = document.createElement('div');
-  const titleElem = document.createElement('h3');
+  const titleElem = document.createElement('a');
   const contentBox = document.createElement('div');
   const contentAndButtonContainer = document.createElement('div');
   const content = document.createElement('span');
   const linkIcon = document.createElement('img');
-  const deleteIcon = document.createElement('img');
   // title and info icon wrapper
-  const linkContainer = document.createElement('a');
+  const linkContainer = document.createElement('div');
 
   // associations
   container.appendChild(linkContainer);
   container.appendChild(contentAndButtonContainer);
   linkContainer.appendChild(titleElem);
   linkContainer.appendChild(linkIcon);
-  linkContainer.appendChild(deleteIcon);
+  linkContainer.appendChild(DeleteButton());
   contentAndButtonContainer.appendChild(contentBox);
   contentAndButtonContainer.appendChild(CopyButton(formattedUrl));
   contentBox.appendChild(content);
@@ -69,15 +69,14 @@ function UrlTextFormatComponent(title, formattedUrl, externalInfoURL) {
 
   // Set attributes
   container.className = 'format__container';
+  container.id = id;
   titleElem.className = 'format__title';
   contentBox.className = 'format__content-box';
   content.className = 'format__content';
   contentAndButtonContainer.className = 'format__contentBox-button-container';
   linkIcon.src = chrome.runtime.getURL('../icons/link_black_24dp.svg');
   linkIcon.className = 'format__link-icon';
-  deleteIcon.src = chrome.runtime.getURL('../icons/delete_outline_black_24dp.svg');
-  deleteIcon.className = 'format__delete-icon';
-  linkContainer.href = externalInfoURL;
+  titleElem.href = externalInfoURL;
   linkContainer.className = 'format__link-container'
 
   // Insert formatted Url 
@@ -132,3 +131,31 @@ function displayAlert(message) {
     setTimeout(() => hideAlert(), 1500);
   }
 }
+
+function DeleteButton() {
+  // create button
+  const deleteIcon = document.createElement('img');
+
+  deleteIcon.src = chrome.runtime.getURL('../icons/delete_outline_black_24dp.svg');
+  deleteIcon.className = 'format__delete-icon';
+
+  return deleteIcon;
+}
+
+popupContent.addEventListener('click', (e) => {
+  if (e.target.classList.contains('format__delete-icon')) {
+    const formatContainer = e.target.closest('.format__container');
+    const id = formatContainer.id;
+    chrome.runtime.sendMessage(
+      {
+        type: 'DELETE_FORMAT',
+        data: { id: (+id) },
+      },
+      async (response) => {
+        if (response.done) formatContainer.remove();
+        else console.error('Could not remove format.');
+        return;
+      }
+    )
+  }
+})

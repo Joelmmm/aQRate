@@ -15,6 +15,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       activeTab = tabs[0];
       sendResponse({ url: activeTab.url });
     });
+
+  } else if (message.type === 'DELETE_FORMAT') {
+    const { id } = message.data;
+    chrome.storage.sync.get(['templates'], result => {
+      const templatesUpdated = result.templates.filter(template => template.id !== id);
+
+      chrome.storage.sync.set({ templates: templatesUpdated }, () => {
+        console.log(`%cTemplate with id ${id} has been removed.`, 'color: green');
+        sendResponse({ done: true });
+      });
+    })
   }
   return true;
 });
