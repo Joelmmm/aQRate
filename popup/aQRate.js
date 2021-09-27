@@ -148,7 +148,7 @@ function DeleteButton() {
   return deleteIcon;
 }
 
-popupContent.addEventListener('click', (e) => {
+popupContent.addEventListener('click', e => {
   if (e.target.classList.contains('format__delete-icon')) {
     const formatContainer = e.target.closest('.format__container');
     const id = formatContainer.id;
@@ -164,4 +164,14 @@ popupContent.addEventListener('click', (e) => {
       }
     )
   }
+})
+
+
+// when popup is closed check the order of format elements
+// then send a message to background to save changes in order of elements.
+window.addEventListener('unload', () => {
+  // get an ordered array of ids 
+  const orderArr = [...document.querySelectorAll('.draggable')].map(elem => (+elem.id));  
+
+  chrome.runtime.sendMessage({ type: 'UPDATE_ORDER', data: { order: orderArr } }, () => null);
 })

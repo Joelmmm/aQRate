@@ -22,7 +22,6 @@ export default function dragAndDrop(draggables, container) {
     } else {
       container.insertBefore(draggable, afterElement)
     }
-    sendUpdateOrderMessage(draggable.parentElement.querySelectorAll('.draggable'));
   })
 
   function getDragAfterElement(y) {
@@ -38,11 +37,4 @@ export default function dragAndDrop(draggables, container) {
       }
     }, { offset: Number.NEGATIVE_INFINITY }).element
   }
-}
-
-function sendUpdateOrderMessage(elems) {
-  const orderArr = [...elems].map(elem => (+elem.id));
-  chrome.runtime.sendMessage({ type: 'UPDATE_ORDER', data: {order: orderArr} }, response => {
-    console.log(response);
-  })
 }
