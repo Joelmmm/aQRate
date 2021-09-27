@@ -1,3 +1,4 @@
+import { Template } from '../utils/utils';
 import { alertGenerator } from '../components/components';
 import isUrl from 'is-url-superb';
 
@@ -15,11 +16,8 @@ templateForm.addEventListener('submit', (e) => {
   e.preventDefault();
   chrome.storage.sync.get(['templates'], function (result) {
 
-    const newTemplate = {
-      title: title.value,
-      content: content.value,
-      referenceURL: isUrl(referenceURL.value) ? referenceURL.value : '',
-    }
+    const newTemplate = new Template(title.value, content.value, (isUrl(referenceURL.value) ? referenceURL.value : ''))
+
     const toSave = result.templates ? [...result.templates, newTemplate] : [newTemplate];
 
     chrome.storage.sync.set({ templates: toSave }, () => {
@@ -27,6 +25,7 @@ templateForm.addEventListener('submit', (e) => {
       content.value = '🔗';
       referenceURL.value = '';
       displayAlert('Template created.');
+      bg.console.log(`%cTemplate created successfully. Id: ${newTemplate.id}`, 'color: green');
     })
   })
 });
