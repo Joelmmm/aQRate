@@ -10,6 +10,7 @@ chrome.tabs.onActivated.addListener(activeInfo => {
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   const { type } = message;
+  const successResponse = () => sendResponse({ done: true });
 
   if (type === 'GET_CURRENT_TAB_URL') {
 
@@ -29,7 +30,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       const templatesUpdated = result.templates.filter(template => template.id !== id);
       setTemplates(templatesUpdated, () => {
         console.log(`%cTemplate with id ${id} has been removed.`, 'color: green');
-        sendResponse({ done: true });
+        successResponse();
       })
     })
   }
@@ -52,6 +53,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       // We do not want to reset the templates if it hasn't changed.
       if (hasChanged)
         setTemplates(sorted, () => console.log('%cFormats order updated.', 'color: green'))
+    })
+  }
+  else if (type === 'ADD_FORMAT') {
+    getTemplates(result => {
+      const { format } = message.data;
+      const toSave = result.templates ? [...result.templates, format] : [format];
+      setTemplates(toSave, () => {
+        console.log(`%cTemplate created successfully. Id: ${format.id}`, 'color: green');
+        successResponse();
+      });
     })
   }
   return true;

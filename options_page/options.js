@@ -4,8 +4,6 @@ import isUrl from 'is-url-superb';
 
 const displayAlert = alertGenerator();
 
-const bg = chrome.extension.getBackgroundPage();
-
 const templateForm = document.querySelector('form');
 const title = templateForm.elements['template-title'];
 const content = templateForm.elements['template-content'];
@@ -14,18 +12,15 @@ content.value = '🔗';
 
 templateForm.addEventListener('submit', (e) => {
   e.preventDefault();
-  chrome.storage.sync.get(['templates'], function (result) {
 
-    const newTemplate = new Template(title.value, content.value, (isUrl(referenceURL.value) ? referenceURL.value : ''))
+  const newTemplate = new Template(title.value, content.value, (isUrl(referenceURL.value) ? referenceURL.value : ''))
 
-    const toSave = result.templates ? [...result.templates, newTemplate] : [newTemplate];
-
-    chrome.storage.sync.set({ templates: toSave }, () => {
+  chrome.runtime.sendMessage({ type: 'ADD_FORMAT', data: { format: newTemplate } }, response => {
+    if (response.done) {
       title.value = '';
       content.value = '🔗';
       referenceURL.value = '';
       displayAlert('Template created.');
-      bg.console.log(`%cTemplate created successfully. Id: ${newTemplate.id}`, 'color: green');
-    })
+    }
   })
 });
