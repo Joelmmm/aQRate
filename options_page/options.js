@@ -1,3 +1,7 @@
+import { alertGenerator } from '../components/components';
+
+const displayAlert = alertGenerator();
+
 const bg = chrome.extension.getBackgroundPage();
 
 const templateForm = document.querySelector('form');
@@ -26,37 +30,10 @@ templateForm.addEventListener('submit', (e) => {
   })
 });
 
-
-function displayAlert(message) {
-  const htmlAlert = document.querySelector('.alert');
-
-  if (!htmlAlert.classList.contains('hidden')) return;
-  else {
-    const messageContainer = document.querySelector('.alert-content');
-    messageContainer.innerHTML = '';
-    messageContainer.innerHTML = message;
-
-    htmlAlert.appendChild(messageContainer);
-
-    htmlAlert.classList.remove('hidden');
-
-    const closeButton = document.querySelector('.closebtn');
-
-    const hideAlert = () => {
-      htmlAlert.classList.add('hidden');
-      closeButton.removeEventListener('click', hideAlert);
-    }
-
-    closeButton.addEventListener('click', hideAlert);
-    // remove alert from view in 1.5 seconds
-    setTimeout(() => hideAlert(), 1500);
-  }
-}
-
 function validateURL(url) {
   try {
     new URL(url);
-    return
+    return true;
   } catch (e) {
     console.error(e);
     return false;
