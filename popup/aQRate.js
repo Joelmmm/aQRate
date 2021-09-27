@@ -1,4 +1,5 @@
 import { getQR, handleTemplateInput } from '../utils/utils';
+import dragAndDrop from './dragAndDrop';
 
 const QR_ImageTag = document.getElementById('QR-image');
 const popupContent = document.getElementById('popup-content');
@@ -21,6 +22,9 @@ chrome.runtime.sendMessage({ type: 'GET_CURRENT_TAB_URL' }, async (response) => 
         )
       }
     }
+    // Set listeners for drag and drop events.
+    const draggables = popupContent.querySelectorAll('.draggable');
+    dragAndDrop(draggables, popupContent);
   })
 
   QR_ImageTag.src = URL.createObjectURL(await getQR(url));
@@ -68,8 +72,10 @@ function UrlTextFormatComponent(title, formattedUrl, id, externalInfoURL) {
 
 
   // Set attributes
-  container.className = 'format__container';
+  container.classList.add('format__container');
+  container.classList.add('draggable');
   container.id = id;
+  container.draggable = true;
   titleElem.className = 'format__title';
   contentBox.className = 'format__content-box';
   content.className = 'format__content';
@@ -142,7 +148,7 @@ function DeleteButton() {
   return deleteIcon;
 }
 
-popupContent.addEventListener('click', (e) => {
+popupContent.addEventListener('click', e => {
   if (e.target.classList.contains('format__delete-icon')) {
     const formatContainer = e.target.closest('.format__container');
     const id = formatContainer.id;
@@ -158,4 +164,14 @@ popupContent.addEventListener('click', (e) => {
       }
     )
   }
+})
+
+
+// when popup is closed check the order of format elements
+// then send a message to background to save changes in order of elements.
+window.addEventListener('unload', () => {
+  // get an ordered array of ids 
+  const orderArr = [...document.querySelectorAll('.draggable')].map(elem => (+elem.id));  
+
+  chrome.runtime.sendMessage({ type: 'UPDATE_ORDER', data: { order: orderArr } }, () => null);
 })

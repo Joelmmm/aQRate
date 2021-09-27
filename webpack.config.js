@@ -9,5 +9,8 @@ module.exports = {
     filename: '[name].js',
     path: path.resolve(__dirname, 'build'),
     clean: true
-  }
+  },
+
+  mode: 'development',
+  devtool: 'inline-source-map',
 };
