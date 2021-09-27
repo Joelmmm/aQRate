@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/Joelmmm/aQRate#readme",
   "dependencies": {
-    "hash-string": "^1.0.0"
+    "hash-string": "^1.0.0",
+    "is-url-superb": "^6.0.0"
   }
 }

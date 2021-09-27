@@ -1,4 +1,5 @@
 import { alertGenerator } from '../components/components';
+import isUrl from 'is-url-superb';
 
 const displayAlert = alertGenerator();
 
@@ -17,7 +18,7 @@ templateForm.addEventListener('submit', (e) => {
     const newTemplate = {
       title: title.value,
       content: content.value,
-      referenceURL: validateURL(referenceURL.value) ? referenceURL.value : '',
+      referenceURL: isUrl(referenceURL.value) ? referenceURL.value : '',
     }
     const toSave = result.templates ? [...result.templates, newTemplate] : [newTemplate];
 
@@ -29,13 +30,3 @@ templateForm.addEventListener('submit', (e) => {
     })
   })
 });
-
-function validateURL(url) {
-  try {
-    new URL(url);
-    return true;
-  } catch (e) {
-    console.error(e);
-    return false;
-  }
-}
