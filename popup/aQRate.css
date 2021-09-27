@@ -1,5 +1,6 @@
 :root {
   --link-color: #1a73e8;
+  --nice-border: 1px solid rgb(216, 215, 215);
 }
 
 /* ************  QR image    ************/
@@ -22,6 +23,8 @@ body {
   align-items: center;
   justify-content: center;
   box-shadow: 2px 2px 6px grey;
+  margin: 0 auto;
+  margin-bottom: 1rem;
 }
 
 /*************  Donut spinner  *************/
@@ -48,18 +51,38 @@ body {
 
 /* ************   formats   ************/
 
+.format__container {
+  padding: 0.25rem;
+  border: var(--nice-border);
+  border-radius: 5px;
+  margin-top: 0.5rem;
+  box-shadow: 1px 0 5px grey;
+  max-width: 500px;
+}
+
 .format__link-container {
   display: flex;
+  justify-content: space-between;
+  color: var(--link-color);
+  padding: 0.5rem;
+}
+
+.format__title {
   color: var(--link-color);
   text-decoration: none;
 }
 
-.format__link-container:hover {
+.format__title:hover {
   text-decoration: underline;
+}
+
+.format__delete-icon {
+  cursor: pointer;
 }
 
 .format__link-icon {
   margin: 0 0.5rem;
+  display: none;
 }
 
 .format__content-box {
@@ -70,7 +93,7 @@ body {
 }
 
 .format__contentBox-button-container {
-  border: 1px solid rgb(216, 215, 215);
+  border: var(--nice-border);
   border-radius: 3px;
   display: flex;
   justify-content: space-between;
