@@ -1,4 +1,5 @@
 import { getQR, handleTemplateInput } from '../utils/utils';
+import dragAndDrop from './dragAndDrop';
 
 const QR_ImageTag = document.getElementById('QR-image');
 const popupContent = document.getElementById('popup-content');
@@ -21,6 +22,9 @@ chrome.runtime.sendMessage({ type: 'GET_CURRENT_TAB_URL' }, async (response) => 
         )
       }
     }
+    // Set listeners for drag and drop events.
+    const draggables = popupContent.querySelectorAll('.draggable');
+    dragAndDrop(draggables, popupContent);
   })
 
   QR_ImageTag.src = URL.createObjectURL(await getQR(url));
@@ -68,8 +72,10 @@ function UrlTextFormatComponent(title, formattedUrl, id, externalInfoURL) {
 
 
   // Set attributes
-  container.className = 'format__container';
+  container.classList.add('format__container');
+  container.classList.add('draggable');
   container.id = id;
+  container.draggable = true;
   titleElem.className = 'format__title';
   contentBox.className = 'format__content-box';
   content.className = 'format__content';

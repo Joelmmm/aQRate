@@ -1,12 +1,17 @@
 import { formatUrl, Template } from './utils/utils.js';
 
+const getTemplates = (cb) => chrome.storage.sync.get(['templates'], cb);
+const setTemplates = (templates, cb) => chrome.storage.sync.set({ templates: templates }, cb);
+
 chrome.tabs.onActivated.addListener(activeInfo => {
   console.log('activeInfo ', activeInfo);
   return;
 })
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type === 'GET_CURRENT_TAB_URL') {
+  const { type } = message;
+
+  if (type === 'GET_CURRENT_TAB_URL') {
 
     let activeTab = { url: null };
     let queryOptions = { active: true, currentWindow: true };
@@ -16,15 +21,24 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       sendResponse({ url: activeTab.url });
     });
 
-  } else if (message.type === 'DELETE_FORMAT') {
+  }
+  else if (type === 'DELETE_FORMAT') {
     const { id } = message.data;
-    chrome.storage.sync.get(['templates'], result => {
-      const templatesUpdated = result.templates.filter(template => template.id !== id);
 
-      chrome.storage.sync.set({ templates: templatesUpdated }, () => {
+    getTemplates(result => {
+      const templatesUpdated = result.templates.filter(template => template.id !== id);
+      setTemplates(templatesUpdated, () => {
         console.log(`%cTemplate with id ${id} has been removed.`, 'color: green');
         sendResponse({ done: true });
-      });
+      })
+    })
+  }
+  else if (type === 'UPDATE_ORDER') {
+    getTemplates(result => {
+      const sorted = message.data.order.map(itemId => {
+        return result.templates.find(template => template.id === itemId)
+      })
+      setTemplates(sorted, () => console.log('%cFormats order updated', 'color: green'))
     })
   }
   return true;
@@ -44,5 +58,5 @@ chrome.runtime.onInstalled.addListener(() => {
 
   chrome.storage.sync.clear();
 
-  chrome.storage.sync.set({ templates: defaultTemplates }, () => console.log('%cDefault templates saved.', 'color: green'));
+  setTemplates(defaultTemplates, () => console.log('%cDefault templates saved.', 'color: green'));
 });
