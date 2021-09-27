@@ -35,10 +35,23 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
   else if (type === 'UPDATE_ORDER') {
     getTemplates(result => {
-      const sorted = message.data.order.map(itemId => {
-        return result.templates.find(template => template.id === itemId)
-      })
-      setTemplates(sorted, () => console.log('%cFormats order updated', 'color: green'))
+      let hasChanged = false;
+      const sorted = message.data.order.map(
+        // Check if the current item (an id) matches the id of 
+        // the element in the same index that was retrieved from storage.
+        (itemId, index) => {
+          if (itemId === result.templates[index].id)
+            return result.templates[index];
+          else {
+            hasChanged = true;
+            return result.templates.find(template => template.id === itemId);
+          }
+        }
+
+      );
+      // We do not want to reset the templates if it hasn't changed.
+      if (hasChanged)
+        setTemplates(sorted, () => console.log('%cFormats order updated.', 'color: green'))
     })
   }
   return true;
