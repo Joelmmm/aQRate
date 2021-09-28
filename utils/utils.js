@@ -67,7 +67,7 @@ export async function validateImageUrl(url) {
     const isValidImage = await validateImage(url, { throw: true });
     return isValidImage;
   } catch (error) {
-    console.log(error);
+    console.warn(error);
     return false;
   }
 };

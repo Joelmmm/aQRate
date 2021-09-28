@@ -6,7 +6,7 @@ const QR_ImageTag = document.getElementById('QR-image');
 const popupContent = document.getElementById('popup-content');
 const donut = document.querySelector('.donut');
 
-// Ask for current's tab URL
+// Ask for current tab's URL
 chrome.runtime.sendMessage({ type: 'GET_CURRENT_TAB_URL' }, async (response) => {
   const { url } = response;
 

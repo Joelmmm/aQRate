@@ -80,11 +80,6 @@ body {
   cursor: pointer;
 }
 
-.format__link-icon {
-  margin: 0 0.5rem;
-  display: none;
-}
-
 .format__content-box {
   padding: 0.5rem;
   white-space: nowrap;
