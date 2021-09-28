@@ -9,10 +9,10 @@ const donut = document.querySelector('.donut');
 // Ask for current's tab URL
 chrome.runtime.sendMessage({ type: 'GET_CURRENT_TAB_URL' }, async (response) => {
   const { url } = response;
-
-  chrome.storage.sync.get(['templates'], result => {
-    if ('templates' in result) {
-      for (const template of result.templates) {
+  
+  chrome.runtime.sendMessage({type: 'GET_TEMPLATES'}, res => {
+    if ('templates' in res) {
+      for (const template of res.templates) {
         popupContent.appendChild(
           UrlTextFormatComponent(
             template.title,

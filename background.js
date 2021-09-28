@@ -65,6 +65,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       });
     })
   }
+  else if (type === 'GET_TEMPLATES') {
+    getTemplates(result => sendResponse({ templates: result.templates }));
+  }
   return true;
 });
 
