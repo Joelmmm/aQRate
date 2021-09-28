@@ -3,7 +3,7 @@ const displayAlert = alertGenerator();
 export function UrlTextFormatComponent(title, formattedUrl, id, externalInfoURL) {
 
   const container = document.createElement('div');
-  const titleElem = document.createElement('a');
+  const titleElem = document.createElement(externalInfoURL ? 'a' : 'span');
   const contentBox = document.createElement('div');
   const contentAndButtonContainer = document.createElement('div');
   const content = document.createElement('span');
@@ -30,8 +30,9 @@ export function UrlTextFormatComponent(title, formattedUrl, id, externalInfoURL)
   contentBox.className = 'format__content-box';
   content.className = 'format__content';
   contentAndButtonContainer.className = 'format__contentBox-button-container';
-  titleElem.href = externalInfoURL;
-  linkContainer.className = 'format__link-container'
+  if (titleElem.nodeName === 'A')
+    titleElem.href = externalInfoURL;
+  linkContainer.className = 'format__link-container';
 
   // Insert formatted Url 
   content.appendChild(document.createTextNode(formattedUrl));
