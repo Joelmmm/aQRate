@@ -1,4 +1,5 @@
 import hash from 'hash-string';
+import { validateImage } from 'image-validator';
 
 // request QR code from Google's API
 export async function getQR(urlToEncode) {
@@ -39,11 +40,12 @@ export function formatUrl(url) {
   }
 }
 
-export function Template(title, content, referenceURL = '') {
+export function Template(title, content, referenceURL = '', isImageRelated = false) {
   this.title = title;
   this.content = content;
   this.referenceURL = referenceURL;
   this.id = hash(this.title + this.content);
+  this.isImageRelated = isImageRelated;
 }
  
 // Insert URL into template
@@ -59,3 +61,13 @@ export function handleTemplateInput(str, url) {
 
   return template.replaceAll(placeholder, url);
 }
+
+export async function validateImageUrl(url) {
+  try {
+    const isValidImage = await validateImage(url, { throw: true });
+    return isValidImage;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};

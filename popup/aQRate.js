@@ -9,18 +9,23 @@ const donut = document.querySelector('.donut');
 // Ask for current's tab URL
 chrome.runtime.sendMessage({ type: 'GET_CURRENT_TAB_URL' }, async (response) => {
   const { url } = response;
-  
-  chrome.runtime.sendMessage({type: 'GET_TEMPLATES'}, res => {
+
+  chrome.runtime.sendMessage({ type: 'GET_TEMPLATES' }, res => {
     if ('templates' in res) {
       for (const template of res.templates) {
-        popupContent.appendChild(
-          UrlTextFormatComponent(
-            template.title,
-            handleTemplateInput(template.content, url),
-            template.id,
-            template.referenceURL
-          )
-        )
+        const format = UrlTextFormatComponent(
+          template.title,
+          handleTemplateInput(template.content, url),
+          template.id,
+          template.referenceURL
+        );
+        popupContent.appendChild(format);
+        // Hide image related formats from view when current url does not correspond to an image.
+        // It's important to hide it with CSS and not to remove it from DOM because when popup.html
+        // unloads it checks for popupContent children nodes to determine the order of these nodes
+        // and save this order on the background script (in case they were re-ordered by drag and drop). 
+        if (!res.isImageURL && template.isImageRelated)
+          format.classList.add('hidden');
       }
     }
     // Set listeners for drag and drop events.
