@@ -1,3 +1,5 @@
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 import hash from 'hash-string';
 import { validateImage } from 'image-validator';
 
