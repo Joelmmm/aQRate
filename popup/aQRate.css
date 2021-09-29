@@ -67,22 +67,17 @@ body {
   padding: 0.5rem;
 }
 
-.format__title {
+a.format__title {
   color: var(--link-color);
   text-decoration: none;
 }
 
-.format__title:hover {
+a.format__title:hover {
   text-decoration: underline;
 }
 
 .format__delete-icon {
   cursor: pointer;
-}
-
-.format__link-icon {
-  margin: 0 0.5rem;
-  display: none;
 }
 
 .format__content-box {

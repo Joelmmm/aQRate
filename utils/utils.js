@@ -1,3 +1,5 @@
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 import hash from 'hash-string';
 import { validateImage } from 'image-validator';
 
@@ -67,7 +69,7 @@ export async function validateImageUrl(url) {
     const isValidImage = await validateImage(url, { throw: true });
     return isValidImage;
   } catch (error) {
-    console.log(error);
+    console.warn(error);
     return false;
   }
 };

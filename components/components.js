@@ -3,19 +3,17 @@ const displayAlert = alertGenerator();
 export function UrlTextFormatComponent(title, formattedUrl, id, externalInfoURL) {
 
   const container = document.createElement('div');
-  const titleElem = document.createElement('a');
+  const titleElem = document.createElement(externalInfoURL ? 'a' : 'span');
   const contentBox = document.createElement('div');
   const contentAndButtonContainer = document.createElement('div');
   const content = document.createElement('span');
-  const linkIcon = document.createElement('img');
-  // title and info icon wrapper
+  // title and delete icon wrapper
   const linkContainer = document.createElement('div');
 
   // associations
   container.appendChild(linkContainer);
   container.appendChild(contentAndButtonContainer);
   linkContainer.appendChild(titleElem);
-  linkContainer.appendChild(linkIcon);
   linkContainer.appendChild(DeleteButton());
   contentAndButtonContainer.appendChild(contentBox);
   contentAndButtonContainer.appendChild(CopyButton(formattedUrl));
@@ -32,10 +30,9 @@ export function UrlTextFormatComponent(title, formattedUrl, id, externalInfoURL)
   contentBox.className = 'format__content-box';
   content.className = 'format__content';
   contentAndButtonContainer.className = 'format__contentBox-button-container';
-  linkIcon.src = chrome.runtime.getURL('../icons/link_black_24dp.svg');
-  linkIcon.className = 'format__link-icon';
-  titleElem.href = externalInfoURL;
-  linkContainer.className = 'format__link-container'
+  if (titleElem.nodeName === 'A')
+    titleElem.href = externalInfoURL;
+  linkContainer.className = 'format__link-container';
 
   // Insert formatted Url 
   content.appendChild(document.createTextNode(formattedUrl));
