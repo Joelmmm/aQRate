@@ -15,12 +15,11 @@ export async function getQR(urlToEncode) {
   const QRCodeResponse = await fetch(`${url}${requiredParams.join('&')}`);
 
   if (QRCodeResponse.ok) {
-    console.log('QRCodeResponse Success');
     return QRCodeResponse.blob();
   } else {
-    console.error('QRCodeResponse Error');
+    console.error('Request for QR failed.');
   }
-  return
+  return null
 }
 
 export function formatUrl(url) {
