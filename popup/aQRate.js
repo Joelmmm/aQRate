@@ -70,9 +70,9 @@ popupContent.addEventListener('click', e => {
   }
 })
 
-// when popup is closed check the order of format elements
+// check the order of format elements
 // then send a message to background to save changes in order of elements.
-window.addEventListener('unload', () => {
+popupContent.addEventListener('order-changed', () => {
   // get an ordered array of ids 
   const orderArr = [...document.querySelectorAll('.draggable')].map(elem => (+elem.id));
 
