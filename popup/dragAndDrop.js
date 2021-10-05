@@ -1,4 +1,5 @@
-// Taken from: https://github.com/WebDevSimplified/Drag-And-Drop/blob/master/script.js
+// Original taken from: https://github.com/WebDevSimplified/Drag-And-Drop/blob/master/script.js
+const OrderChangedEvent = new CustomEvent('order-changed');
 
 export default function dragAndDrop(draggables, container) {
 
@@ -8,7 +9,8 @@ export default function dragAndDrop(draggables, container) {
     })
 
     draggable.addEventListener('dragend', () => {
-      draggable.classList.remove('dragging')
+      draggable.classList.remove('dragging');
+      container.dispatchEvent(OrderChangedEvent);
     })
   })
 
