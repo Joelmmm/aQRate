@@ -1,7 +1,7 @@
 {
   "name": "aqrate",
   "version": "1.0.0",
-  "description": "Browser extension. Get the current URL as a QR code or HTML tag.",
+  "description": "Browser extension. Get the current URL as a QR code or formatted in many ways.",
   "private": true,
   "devDependencies": {
     "@babel/core": "^7.15.5",
