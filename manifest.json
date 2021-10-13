@@ -23,7 +23,7 @@
   },
 
   "background": {
-    "scripts": ["build/background.js"]
+    "scripts": ["./background.js"]
   },
 
   "browser_specific_settings": {

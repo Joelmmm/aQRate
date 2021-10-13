@@ -1,4 +1,6 @@
 const path = require('path');
+const TransformExtensionManifestPlugin = require('./webpack_helpers/TransformExtensionManifestPlugin');
+const CopyPlugin = require("copy-webpack-plugin");
 require('dotenv').config();
 
 const IS_PRODUCTION = (process.env.MODE).toLowerCase() === "production";
@@ -33,13 +35,24 @@ const config = {
         }
       }
     ]
-  }
-};
+  },
 
+  plugins: [
+    new TransformExtensionManifestPlugin(),
+    new CopyPlugin({
+      patterns: [
+        { from: path.resolve('popup/aQRate.html'), to: path.resolve('build') },
+        { from: path.resolve('popup/aQRate.css'), to: path.resolve('build') },
+        { from: path.resolve('options_page/options.html'), to: path.resolve('build') },
+        { from: path.resolve('options_page/options.css'), to: path.resolve('build') },
+        { from: path.resolve('icons'), to: path.resolve('build/icons') },
+      ],
+    })
+  ]
+};
 
 if (IS_DEVELOPMENT) {
   config.devtool = 'inline-source-map';
 }
-
 
 module.exports = config;
