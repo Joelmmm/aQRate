@@ -42,7 +42,9 @@ const config = {
     new CopyPlugin({
       patterns: [
         { from: path.resolve('popup/aQRate.html'), to: path.resolve('build') },
+        { from: path.resolve('popup/aQRate.css'), to: path.resolve('build') },
         { from: path.resolve('options_page/options.html'), to: path.resolve('build') },
+        { from: path.resolve('options_page/options.css'), to: path.resolve('build') },
         { from: path.resolve('icons'), to: path.resolve('build/icons') },
       ],
     })
