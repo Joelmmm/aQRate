@@ -21,7 +21,7 @@ Another nice feature is that you can add your own templates to the extension.
 ![image](https://user-images.githubusercontent.com/22090032/136094648-759aa453-81d3-4554-abc0-6d53583ca385.png)
 
 ### About the source code
-  The most important file in a browser extension is `manifest.json`. In here you declare what are the assets, scripts and permissions your extension will need to work as intended. This project is composed by:
+  The most important file in a browser extension is `manifest.json`. In here you declare what are the assets, scripts and permissions your extension will need to work as intended. Noteworthy parts of this project are:
   - `background.js`: Found in root directory. This file handles CRUD operations, sets up the app when installed.
   - `/popup`: This is a set of files containing the HTML, CSS and JavaScript for the UI element we see when we click on the extension's icon on the top right corner of the browser window. The most noteworthy here is `aQRate.js`, this file creates and injects DOM elements to `aQRate.html` producing the views dynamically. Also, from this file we make a request to Google Charts API to generate the QR code.
   - `/options_page`: This is a set of files containing the HTML, CSS and JavaScript for the options page of the extension (where you add new templates). The script in this case simply sends a massage to `background.js` with the new template's info to be stored and adds few logic to the view.
