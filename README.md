@@ -1,9 +1,10 @@
 # aQRate
 #### Video Demo:  [https://www.youtube.com/watch?v=g6MmTx_rtIk](https://www.youtube.com/watch?v=g6MmTx_rtIk)
+#### Add to [Firefox](https://addons.mozilla.org/en-US/firefox/addon/aqrate/)
 #### Description:
 Get the current URL as a QR code or formatted in many ways. 
 
-aQRate is a browser extension that works both on Firefox and Chrome (even though in Chrome the QR functionality is built-in) that helps you not to have to copy manually an URL when you want to continue watching something on your smartphone or whatever device that supports reading QR codes.
+aQRate is a browser extension that works both on Firefox and Chrome (for Chrome it is not yet available on the Chrome Web Store) that helps you not to have to copy manually an URL when you want to continue watching something on your smartphone or whatever device that supports reading QR codes.
 
 ![image](https://user-images.githubusercontent.com/22090032/136093057-130ae730-3c36-42d8-af7b-07ea59f8a598.png)
 
